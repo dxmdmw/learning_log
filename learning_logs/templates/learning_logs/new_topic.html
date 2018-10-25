@@ -9,12 +9,19 @@
 
   <form action="{% url 'learning_logs:new_topic' %}" method="POST" class="form">
 
+    <select name="dropdown">
+      <option value='Public'>Public</option>
+      <option value='Private'>Private</option>
+    </select>
+
     {% csrf_token %}
     {% bootstrap_form form %}
-
+    
     {% buttons %}
       <button name="submit" class="btn btn-primary">add topic</button>
     {% endbuttons %}
+
+
   </form>
   
 {% endblock content %}

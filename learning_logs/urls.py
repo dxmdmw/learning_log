@@ -25,4 +25,7 @@ urlpatterns = [
 
     # 用于编辑条目的页面
     re_path('edit_entry/(?P<entry_id>\d+)/', views.edit_entry, name='edit_entry'),
+
+    # 用于显示个人所有的主题
+    path('my_topics/', views.my_topics, name='my_topics'),
 ]
