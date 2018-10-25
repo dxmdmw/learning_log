@@ -1429,3 +1429,113 @@ os.path.join(BASE_DIR, 'static'),
 )
 ```
 ####		11.2.3 项目「学习笔记」网址 https://evilgenius.herokuapp.com/
+## 12 个人更新
+###	12.1 未登录用户权限提升
+####		12.1.1 对models.py中的Topic模型增加属性public
+```py
+--snip--
+
+public=models.BooleanField(default=False)
+
+--snip--
+```
+####		12.1.2 数据库迁移
+```sh
+(11_env)learning_log> python manage.py makemigrations learning_logs
+(11_env)learning_log> python manage.py migrate
+```
+####		12.1.3 维护views.py
+1. 取消topics函数的@login_required限制，并更新topics显示规则如下：
+```py
+--snip--
+def topics(request):
+	'''显示所有的主题'''
+	topics = Topic.objects.filter(public=True).order_by('date_added')
+	context = {'topics':topics}
+--snip-
+```
+
+2. 取消topic函数的@login_required限制，并更新topic显示规则如下：
+```py
+--snip--
+def topic(request, topic_id):
+	'''显示公开的单个主题及其所有的条目'''
+	topic = get_object_or_404(Topic, id=topic_id)
+	# 确认请求的主题属性为public=True
+	check_topic_public(topic, request)
+
+	entries = topic.entry_set.order_by('-date_added')
+--snip--
+```	
+####		12.1.4 topics页面增加topic.owner显示
+
+topics.html：
+```py
+--snip--
+{% block content %}
+
+  <ul>
+    {% for topic in topics %}
+      <li>
+        <h3>
+          <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a> <small>- {{ topic.owner }}</small>
+        </h3>
+--snip--
+```
+####		12.1.5 topic页面区分当前用户开关edit与add选项显示
+
+topic.html：
+```py
+--snip--
+{% block content %}
+  <p>
+    {% if topic.owner == user %}  
+      <a href="{% url 'learning_logs:new_entry' topic.id %}">add new entry</a>
+    {% endif %}
+  </p>
+  
+  {% for entry in entries %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3>
+          {{ entry.date_added|date:'M d, Y H:i' }}
+          {% if topic.owner == user %}  
+            <small>
+              <a href="{% url 'learning_logs:edit_entry' entry.id %}">edit entry</a>
+            </small>
+          {% endif %}
+--snip--
+```
+###	12.2 私有topic维护
+
+####		12.2.1 my_topics的URL模式
+
+urls.py：
+```py
+--snip--
+urlpatterns = [
+--snip--
+	# 用于显示个人所有的主题
+    path('my_topics/', views.my_topics, name='my_topics'),
+--snip
+```
+####		12.2.2 视图函数my_topics()
+
+views.py：
+```py
+--snip--
+@login_required
+def my_topics(request):
+    '''显示用户个人所有的主题'''
+
+    topics = Topic.objects.filter(owner=request.user).order_by('date_added')
+    context = {'topics':topics}
+    return render(request, 'learning_logs/topics.html', context)
+--snip
+```
+
+注意这里，仅登陆限制+filter的参数不同，因此同样传递给topics.html用于显示my topics。
+###	12.3 推送至Heroku
+####		12.3.1 git add .
+####		12.3.2 git commit -am "Unlogged users can view public now!"
+####		12.3.3 git push heroku master
