@@ -181,6 +181,11 @@ if cwd == '/app' or cwd[:4] == '/tmp':
 
     DEBUG = False
 
+    # 媒体文件的路径设置
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+    MEDIA_URL = '/media/'
+
+
     # 静态资产配置
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     STATIC_ROOT = 'staticfiles'
