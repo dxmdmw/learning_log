@@ -28,4 +28,11 @@ urlpatterns = [
 
     # 用于显示个人所有的主题
     path('my_topics/', views.my_topics, name='my_topics'),
+
+    # 用于删除自有条目的页面
+    re_path('delete_entry/(?P<entry_id>\d+)/', views.delete_entry, name='delete_entry'),
+
+    # 用于删除自有主题的页面
+    re_path('delete_topic/(?P<topic_id>\d+)/', views.delete_topic, name='delete_topic'),
+
 ]

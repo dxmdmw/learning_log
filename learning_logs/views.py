@@ -16,7 +16,7 @@ def index(request):
 def topics(request):
     '''显示所有的主题'''
 
-    topics = Topic.objects.filter(public=True).order_by('date_added')
+    topics = Topic.objects.filter(public=True, topic_hide=False).order_by('date_added')
     context = {'topics':topics}
     return render(request, 'learning_logs/topics.html', context)
 
@@ -28,8 +28,7 @@ def topic(request, topic_id):
     # check_topic_owner(topic, request)
     # 确认请求的主题属性为公开
     check_topic_public(topic, request)
-
-    entries = topic.entry_set.order_by('-date_added')
+    entries = topic.entry_set.filter(entry_hide=False).order_by('-date_added')
     context = {'topic':topic, 'entries':entries}
     return render(request, 'learning_logs/topic.html', context)
 
@@ -100,6 +99,27 @@ def edit_entry(request, entry_id):
 def my_topics(request):
     '''显示用户个人所有的主题'''
 
-    topics = Topic.objects.filter(owner=request.user).order_by('date_added')
+    topics = Topic.objects.filter(owner=request.user, topic_hide=False).order_by('date_added')
     context = {'topics':topics}
-    return render(request, 'learning_logs/topics.html', context)
+    return render(request, 'learning_logs/my_topics.html', context)
+
+@login_required
+def delete_entry(request, entry_id):
+    '''删除选定条目'''
+    entry = Entry.objects.get(id=entry_id)
+    topic = entry.topic
+    check_topic_owner(topic, request)
+    entry.entry_hide = True
+    entry.save()
+
+    return HttpResponseRedirect(reverse('learning_logs:topic',args=[topic.id]))
+
+@login_required
+def delete_topic(request, topic_id):
+    '''删除选定主题'''
+    topic = Topic.objects.get(id=topic_id)
+    check_topic_owner(topic, request)
+    topic.topic_hide = True
+    topic.save()
+    
+    return HttpResponseRedirect(reverse('learning_logs:my_topics'))

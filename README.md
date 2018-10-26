@@ -1,7 +1,11 @@
 # learning_log
 Create a Learning Log Website
 # 使用Django开发LearningLog项目
->以下是我在学习《Python编程：从入门到实践》一书时开发LearningLog项目的学习笔记。
+>以下是我在学习《Python编程：从入门到实践》一书时开发LearningLog项目的学习笔记。搭建好的网站在：https://evilgenius.herokuapp.com/。
+-------------------------------------------
+2018.10.26更新：
+1. 未登录用户现在可以查看「公开」的主题和条目。
+2. 支持markdown编辑模式！感谢Django-mdeditor，django-markdown-deux！
 -------------------------------------------
 ## 1. 建立项目
 ### 1.1 制定规范
@@ -1429,6 +1433,7 @@ os.path.join(BASE_DIR, 'static'),
 )
 ```
 ####		11.2.3 项目「学习笔记」网址 https://evilgenius.herokuapp.com/
+----------------------------------------------------
 ## 12 个人更新
 ###	12.1 未登录用户权限提升
 ####		12.1.1 对models.py中的Topic模型增加属性public
@@ -1530,12 +1535,110 @@ def my_topics(request):
 
     topics = Topic.objects.filter(owner=request.user).order_by('date_added')
     context = {'topics':topics}
-    return render(request, 'learning_logs/topics.html', context)
+    return render(request, 'learning_logs/my_topics.html', context)
 --snip
 ```
 
 注意这里，仅登陆限制+filter的参数不同，因此同样传递给topics.html用于显示my topics。
+
+
 ###	12.3 推送至Heroku
 ####		12.3.1 git add .
 ####		12.3.2 git commit -am "Unlogged users can view public now!"
 ####		12.3.3 git push heroku master
+
+### 12.4 允许用户删除自己的主题和条目
+1. 在模型Entry和模型Topic中分别增加BooleanField属性。
+
+models.py:
+```py
+entry_hide = models.BooleanField(default=False)
+```
+
+```py
+topic_hide = models.BooleanField(default=False)
+```
+2. 数据库迁移。
+3. 设置URL模式
+
+urls.py:
+```py
+# 用于删除自有条目的页面
+re_path('delete_entry/(?P<entry_id>\d+)/', views.delete_entry, name='delete_entry'),
+
+# 用于删除自有主题的页面
+re_path('delete_topic/(?P<topic_id>\d+)/', views.delete_topic, name='delete_topic'),
+```
+4. 维护views.py
+```py
+--snip--
+def topics(request):
+    '''显示所有的主题'''
+
+    topics = Topic.objects.filter(public=True, topic_hide=False).order_by('date_added')
+    context = {'topics':topics}
+    return render(request, 'learning_logs/topics.html', context)
+
+def topic(request, topic_id):
+    '''显示单个主题及其所有的条目'''
+    topic = get_object_or_404(Topic, id=topic_id)
+    # 确认请求的主题属于当前用户
+    # check_topic_owner(topic, request)
+    # 确认请求的主题属性为公开
+    check_topic_public(topic, request)
+    entries = topic.entry_set.filter(entry_hide=False).order_by('-date_added')
+    context = {'topic':topic, 'entries':entries}
+    return render(request, 'learning_logs/topic.html', context)
+
+@login_required
+def delete_entry(request, entry_id):
+    '''删除选定条目'''
+    entry = Entry.objects.get(id=entry_id)
+    topic = entry.topic
+    check_topic_owner(topic, request)
+    entry.entry_hide = True
+    entry.save()
+
+    return HttpResponseRedirect(reverse('learning_logs:topic',args=[topic.id]))
+
+@login_required
+def delete_topic(request, topic_id):
+    '''删除选定主题'''
+    topic = Topic.objects.get(id=topic_id)
+    check_topic_owner(topic, request)
+    topic.topic_hide = True
+    topic.save()
+    
+    return HttpResponseRedirect(reverse('learning_logs:my_topics'))
+```
+5. 增加页面my_topics.html优化用户跳转体验。
+```py
+{% if topic.owner == user %}  
+  <small><a href="{% url 'learning_logs:delete_topic' topic.id %}" class="ex1" onclick="return confirm('永久删除此主题，请确认！');"> delete</a></small>
+```
+6. 在页面topic.html内增加删除选项
+```py
+{% if topic.owner == user %}  
+  <small>
+    &nbsp<a href="{% url 'learning_logs:edit_entry' entry.id %}">edit</a>&nbsp&nbsp
+    <a href="{% url 'learning_logs:delete_entry' entry.id %}" class="ex1" onclick="return confirm('永久删除此条目，请确认！');"> delete</a>
+  </small>
+{% endif %}
+```
+### 12.5 支持markdown
+####12.5.1 安装django-mdeditor
+```sh
+pip install django-mdeditor
+```
+在 settings 配置文件 INSTALLED_APPS 中添加 mdeditor:
+```py
+INSTALLED_APPS = [
+    ...
+    'mdeditor',
+    ]
+```
+详细内容见：
+https://segmentfault.com/a/1190000013671248
+https://www.imooc.com/article/39656
+感谢这两篇文章的作者。分别解决了Entry的text属性的markdown域，和html的markdown渲染，注意第二篇有符号错误，工具是可行的。
+项目已更新。现在可以支持全局markdown格式了！

@@ -19,13 +19,16 @@
           {{ entry.date_added|date:'M d, Y H:i' }}
           {% if topic.owner == user %}  
             <small>
-              <a href="{% url 'learning_logs:edit_entry' entry.id %}">edit entry</a>
+              &nbsp<a href="{% url 'learning_logs:edit_entry' entry.id %}">edit</a>&nbsp&nbsp
+              <a href="{% url 'learning_logs:delete_entry' entry.id %}" class="ex1" onclick="return confirm('永久删除此条目，请确认！');"> delete</a>
             </small>
           {% endif %}
         </h3>
       </div>
+      {% load markdown_deux_tags %}
       <div class="panel-body">
-        {{ entry.text|linebreaks }}
+          {{ entry.text|markdown }}
+        <!-- {{ form.media }} -->
       </div>
     </div><!-- panel -->
   {% empty %}

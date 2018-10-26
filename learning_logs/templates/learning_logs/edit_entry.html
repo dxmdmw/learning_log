@@ -11,6 +11,7 @@
 
   <form action="{% url 'learning_logs:edit_entry' entry.id %}" method="POST" class="form">
     {% csrf_token %}
+    {{ form.media }}
     {% bootstrap_form form %}
 
     {% buttons %}
