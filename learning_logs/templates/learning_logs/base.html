@@ -1,64 +1,63 @@
-{% load bootstrap3 %}
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="utf-8">
-    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link href="/static/css/highlights/github.css"/>
-    <style>
+    <title>学习笔记</title>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+    <!-- External jQuery -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- External JavaScript -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- In-document CSS -->
+    <style type="text/css">
       a.ex1:hover,a.ex1:active {color:red;}
     </style>
-    <title>Learning Log</title>
-
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
   </head>
 
   <body>
-  
-    <!--Static navbar-->
+    <!-- S-Static navbar -->
     <nav class="navbar navbar-default navbar-static-top">
       <div class="container">
 
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             </button>
-            <a class="navbar-brand" href="{% url 'learning_logs:index' %}">Learning Log</a>
+            <a class="navbar-brand" href="{% url 'learning_logs:index' %}">学习笔记</a>
           </div>
 
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="{% url 'learning_logs:topics' %}">Topics</a></li>
-              <li><a href="{% url 'learning_logs:my_topics' %}">My Topics</a></li>
+              <li><a href="{% url 'learning_logs:topics' %}">公开主题</a></li>
+              <li><a href="{% url 'learning_logs:my_topics' %}">我的主题</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
               {% if user.is_authenticated %}
-                <li><a>Hello, {{ user.username }}.</a></li>
-                <li><a href="{% url 'users:logout' %}">log out</a></li>
+                <li><a>你好，{{ user.username }}！</a></li>
+                <li><a href="{% url 'users:logout' %}">登出</a></li>
               {% else %}
-                <li><a href="{% url 'users:register' %}">register</a></li>
-                <li><a href="{% url 'users:login' %}">log in</a></li>
+                <li><a href="{% url 'users:register' %}">注册</a></li>
+                <li><a href="{% url 'users:login' %}">登入</a></li>
               {% endif %}
             </ul>
-          </div><!--/.nav-collapse -->
-
+          </div>
       </div>
     </nav>
+    <!-- E-Static navbar -->
 
-    <div class="container">
-
-      <div class="page-header">  
-        {% block header %}{% endblock header %}
-      </div>
-      <div>
+    <!-- S-container -->
+      <div class="container">
+        <div class="page-header">  
+          {% block header %}{% endblock header %}
+        </div>
+        <div class="">
         {% block content %}{% endblock content %}
+        </div>
       </div>
-    </div><!-- /container -->
-
+    <!-- E-container -->
   </body>
 </html>
 

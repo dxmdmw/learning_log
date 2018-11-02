@@ -2,7 +2,7 @@
 {% load bootstrap3 %}
 
 {% block header %}
-  <h2>Log in to your account.</h2>
+  <h2>登录你的账户</h2>
 {% endblock header %}
 
 {% block content %}
@@ -12,7 +12,7 @@
     {% bootstrap_form form %}
 
     {% buttons %}
-      <button name="submit" class="btn btn-primary">log in</button>
+      <button name="submit" class="btn btn-primary">登入</button>
     {% endbuttons %}
     
     <input type="hidden" name="next" value="{% url 'learning_logs:index' %}" />

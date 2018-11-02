@@ -1,7 +1,7 @@
 {% extends "learning_logs/base.html" %}
 
 {% block header %}
-  <h1>Topics</h1>
+  <h1>公开主题</h1>
 {% endblock header %}
 
 {% block content %}
@@ -12,15 +12,15 @@
         <h3>
           <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a> <small>- {{ topic.owner }}</small>
           {% if topic.owner == user %}  
-            <small><a href="{% url 'learning_logs:delete_topic' topic.id %}" class="ex1" onclick="return confirm('永久删除此主题，请确认！');"> delete</a></small>
+            <small><a href="{% url 'learning_logs:delete_topic' topic.id %}" class="ex1" onclick="return confirm('永久删除此主题，请确认！');"> 删除</a></small>
           {% endif %}
         </h3>
       </li>
     {% empty %}
-      <li>No topics have been added yet.</li>
+      <li>目前没有已创建的公开主题。</li>
     {% endfor %}  
   </ul>
 
-  <h3><a href="{% url 'learning_logs:new_topic' %}">Add a new topic</h3>
+  <h3><a href="{% url 'learning_logs:new_topic' %}">创建一个新的主题</h3>
 
 {% endblock content %}

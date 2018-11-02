@@ -2,15 +2,40 @@
 
 {% block header %}
   <div class="jumbotron">
-    <h1>Track your learning.</h1>
+    <h1>记录你的奇思妙想</h1>
   </div>
 {% endblock header %}
 
 {% block content %}
+
   <h2>
-    <a href="{% url 'users:register' %}">Register an account</a> to make your own Learning Log, and list the topics you're learning about.
-  </h2>
+    <a href="{% url 'users:register' %}">注册一个账户</a>以开始拥有你自己的学习笔记，然后随时随地记录你学到的点点滴滴。
+  </h2><br>
   <h2>
-    Whenever you learn something new about the topic, make an entry summarizing what you've learned.
-  </h2>
+    你可以在<a href="{% url 'learning_logs:my_topics' %}">我的主题</a>中创建新条目，支持 MARK DOWN 格式的书写，期待你的分享！
+  </h2><br><br>
+  <div class="container">
+    <div class="row">
+      <h3><p>网站功能</p></h3><br>
+      <div class="col-lg-4">
+        <a href="{% url 'learning_logs:new_topic' %}">
+          <img src="images/smile.jpg"  width="300" height="240"  alt="图片">
+        </a><br>
+        <h3><p><strong>新建主题</strong></p></h3>
+      </div>      
+      <div class="col-lg-4">
+        <a href="{% url 'learning_logs:topics' %}">
+          <img src="http://img.qdaily.com/article/article_show/20170313223905D0iBfrjGHYeQX482.jpg?imageMogr2/auto-orient/thumbnail/!755x450r/gravity/Center/crop/755x450/quality/85/format/jpg/ignore-error/1"  width="300" height="240"  alt="图片">
+        </a><br>
+        <h3><p><strong>公开主题</strong></p></h3>
+        </div>
+      <div class="col-lg-4">
+        <a href="{% url 'learning_logs:my_topics' %}">
+          <img src="https://cdn.pixabay.com/photo/2018/01/17/15/55/reading-3088491_960_720.jpg"  width="300" height="240"  alt="图片">
+        </a><br>
+        <h3><p><strong>我的主题</strong></p></h3>
+      </div>
+    </div>
+  </div>
+
 {% endblock content %}

@@ -2,13 +2,14 @@
 
 {% block header %}
   <h2>{{ topic }}</h2>
-  <h4>by {{ topic.owner }}</h4>
+  <h4>创建人： {{ topic.owner }}</h4>
 {% endblock header %}
 
 {% block content %}
+
   <p>
     {% if topic.owner == user %}  
-      <a href="{% url 'learning_logs:new_entry' topic.id %}">add new entry</a>
+      <a href="{% url 'learning_logs:new_entry' topic.id %}">创建一个新条目</a>
     {% endif %}
   </p>
   
@@ -19,8 +20,8 @@
           {{ entry.date_added|date:'M d, Y H:i' }}
           {% if topic.owner == user %}  
             <small>
-              &nbsp<a href="{% url 'learning_logs:edit_entry' entry.id %}">edit</a>&nbsp&nbsp
-              <a href="{% url 'learning_logs:delete_entry' entry.id %}" class="ex1" onclick="return confirm('永久删除此条目，请确认！');"> delete</a>
+              &nbsp<a href="{% url 'learning_logs:edit_entry' entry.id %}">编辑</a>&nbsp&nbsp
+              <a href="{% url 'learning_logs:delete_entry' entry.id %}" class="ex1" onclick="return confirm('永久删除此条目，请确认！');"> 删除</a>
             </small>
           {% endif %}
         </h3>
@@ -28,12 +29,11 @@
       {% load markdown_deux_tags %}
       <div class="panel-body">
           {{ entry.text|markdown }}
-        <!-- {{ form.media }} -->
       </div>
-    </div><!-- panel -->
+    </div>
   {% empty %}
     <li>
-      There are no entries for this topic yet.
+      当前主题下还没有创建过任何条目。
     </li>
   {% endfor %}
 
