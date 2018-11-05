@@ -3,6 +3,14 @@ Create a Learning Log Website
 # 使用Django开发LearningLog项目
 >以下是我在学习《Python编程：从入门到实践》一书时开发LearningLog项目的学习笔记。搭建好的网站在：https://evilgenius.herokuapp.com/。
 -------------------------------------------
+2018.11.5更新：
+优化了网站显示页面，增加「站点精选」导航栏。
+![网站首页预览](http://i2.bvimg.com/667637/0c6b16973011b533.jpg)
+![网站截图1](http://i2.bvimg.com/667637/ab644ad1e1c6c2ff.jpg)
+![网站截图2](http://i2.bvimg.com/667637/d9397b3ef4abedb1.jpg)
+
+
+-------------------------------------------
 2018.10.26更新：
 1. 未登录用户现在可以查看「公开」的主题和条目。
 2. 支持markdown编辑模式！感谢Django-mdeditor，django-markdown-deux！
@@ -1642,3 +1650,7 @@ https://segmentfault.com/a/1190000013671248
 https://www.imooc.com/article/39656
 感谢这两篇文章的作者。分别解决了Entry的text属性的markdown域，和html的markdown渲染，注意第二篇有符号错误，工具是可行的。
 项目已更新。现在可以支持全局markdown格式了！
+
+------------------------------------------
+## 13 界面改版，增加「站点精选」导航，优化显示界面。
+### 13.1 用在[ Bootstrap 3 教程](http://www.runoob.com/bootstrap/bootstrap-intro.html)里学到的BOOTSTRAP3 CSS 和 HTML知识对网站显示界面进行优化。
