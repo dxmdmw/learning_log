@@ -5,9 +5,12 @@ Create a Learning Log Website
 -------------------------------------------
 2018.11.5更新：
 优化了网站显示页面，增加「站点精选」导航栏。
-![网站首页预览](http://i2.bvimg.com/667637/0c6b16973011b533.jpg)
-![网站截图1](http://i2.bvimg.com/667637/ab644ad1e1c6c2ff.jpg)
-![网站截图2](http://i2.bvimg.com/667637/d9397b3ef4abedb1.jpg)
+1. 网站首页
+![网站首页预览](http://pic.yupoo.com/dxmdmw/1ac87f23/380b0544.jpg)
+2. 网站截图
+![网站截图1]http://pic.yupoo.com/dxmdmw/e62aacf5/3a509ef7.jpg
+![网站截图2](http://pic.yupoo.com/dxmdmw/160deb9c/139fa97b.jpg)
+![网站截图3](http://pic.yupoo.com/dxmdmw/6b6f91b7/bd88df50.jpg)
 
 
 -------------------------------------------
