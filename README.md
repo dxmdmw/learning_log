@@ -8,7 +8,7 @@ Create a Learning Log Website
 1. 网站首页
 ![网站首页预览](http://pic.yupoo.com/dxmdmw/1ac87f23/380b0544.jpg)
 2. 网站截图
-![网站截图1]http://pic.yupoo.com/dxmdmw/e62aacf5/3a509ef7.jpg
+![网站截图1]http://pic.yupoo.com/dxmdmw/e62aacf5/3a509ef7.jpg)
 ![网站截图2](http://pic.yupoo.com/dxmdmw/160deb9c/139fa97b.jpg)
 ![网站截图3](http://pic.yupoo.com/dxmdmw/6b6f91b7/bd88df50.jpg)
 
